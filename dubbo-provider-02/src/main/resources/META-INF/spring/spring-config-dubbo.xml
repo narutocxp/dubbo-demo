@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
+	default-lazy-init="true">
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="dubbo-provider-01" />
+	<!-- 使用zookeerp注册中心暴露服务地址 -->
+	<dubbo:registry
+		address="zookeeper://192.168.212.18:2181" />
+	<!-- 用dubbo协议在20882端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="20880"
+		dispatcher="all" threadpool="fixed" threads="100" />
+
+	 <!-- 
+	           则必须保证这里设置的port、contextpath，与外部应用服务器的端口、DispatcherServlet的上下文路径（即webapp 
+		path加上servlet url pattern）保持一致。例如，对于部署为tomcat ROOT路径的应用，这里的contextpath必须与web.xml中DispacherServlet的<url-pattern/>完全一致： 
+		<servlet-mapping> 
+		          <servlet-name>dispatcher</servlet-name>
+		          <url-pattern>/services/*</url-pattern> 
+		</servlet-mapping> 
+	
+	     rest协议使用外部tomcat容器 
+	    <dubbo:protocol name="rest" server="servlet" contextpath="dubbo-provider-02" port="9010" />
+	     rest协议使用内置tomcat容器 
+	    <dubbo:protocol name="rest" server="tomcat" contextpath="dubbo-provider-02" port="9010" />
+	-->
+	<!-- <dubbo:protocol name="rest" server="servlet"
+		contextpath="dubbo-provider-02" port="9010" /> -->
+		<dubbo:protocol name="rest" server="tomcat" contextpath="dubbo-provider-02" port="9010" />
+
+	<dubbo:service
+		interface="com.rongji.dubbo.service.GreetingService"
+		ref="greetingServiceImpl" filter="authorityFilter" protocol="dubbo" />
+	<dubbo:service
+		interface="com.rongji.dubbo.service.UserService" ref="userServiceImpl"
+		protocol="rest" />
+
+	<!-- 和本地bean一样实现服务 -->
+	<bean id="greetingServiceImpl"
+		class="com.rongji.dubbo.service.impl.GreetingServiceImpl" />
+	<bean id="userServiceImpl"
+		class="com.rongji.dubbo.service.impl.UserServiceImpl" />
+</beans>
