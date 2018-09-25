@@ -10,9 +10,9 @@
 	<dubbo:application name="dubbo-provider-01" />
 	<!-- 使用zookeerp注册中心暴露服务地址 -->
 	<dubbo:registry
-		address="zookeeper://192.168.212.18:2181" />
+		address="zookeeper://192.168.0.171:2181" />
 	<!-- 用dubbo协议在20882端口暴露服务 -->
-	<dubbo:protocol name="dubbo" port="20880"
+	<dubbo:protocol name="dubbo" port="20887"
 		dispatcher="all" threadpool="fixed" threads="100" />
 
 	 <!-- 
@@ -33,14 +33,12 @@
 
 	<dubbo:service
 		interface="com.rongji.dubbo.service.GreetingService"
-		ref="greetingServiceImpl" filter="authorityFilter" protocol="dubbo" />
+		ref="greetingServiceImpl" filter="authorityFilter" protocol="dubbo"  loadbalance="random"/>
 	<dubbo:service
 		interface="com.rongji.dubbo.service.UserService" ref="userServiceImpl"
 		protocol="rest" />
 
 	<!-- 和本地bean一样实现服务 -->
-	<bean id="greetingServiceImpl"
-		class="com.rongji.dubbo.service.impl.GreetingServiceImpl" />
-	<bean id="userServiceImpl"
-		class="com.rongji.dubbo.service.impl.UserServiceImpl" />
+	<bean id="greetingServiceImpl" class="com.rongji.dubbo.service.impl.GreetingServiceImpl" />
+	<bean id="userServiceImpl" class="com.rongji.dubbo.service.impl.UserServiceImpl" />
 </beans>

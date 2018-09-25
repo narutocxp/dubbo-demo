@@ -7,12 +7,12 @@
 		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-lazy-init="true">
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<dubbo:application name="dubbo-provider-01" />
+	<dubbo:application name="dubbo-provider-02" />
 	<!-- 使用zookeerp注册中心暴露服务地址 -->
 	<dubbo:registry
-		address="zookeeper://192.168.212.18:2181" />
+		address="zookeeper://192.168.0.171:2181" />
 	<!-- 用dubbo协议在20882端口暴露服务 -->
-	<dubbo:protocol name="dubbo" port="20880"
+	<dubbo:protocol name="dubbo" port="20887"
 		dispatcher="all" threadpool="fixed" threads="100" />
 
 	 <!-- 
@@ -32,9 +32,7 @@
 		contextpath="dubbo-provider-02" port="9010" /> -->
 		<dubbo:protocol name="rest" server="tomcat" contextpath="dubbo-provider-02" port="9010" />
 
-	<dubbo:service
-		interface="com.rongji.dubbo.service.GreetingService"
-		ref="greetingServiceImpl" filter="authorityFilter" protocol="dubbo" />
+	<dubbo:service interface="com.rongji.dubbo.service.GreetingService" ref="greetingServiceImpl" filter="authorityFilter" protocol="dubbo" loadbalance="random"/>
 	<dubbo:service
 		interface="com.rongji.dubbo.service.UserService" ref="userServiceImpl"
 		protocol="rest" />
