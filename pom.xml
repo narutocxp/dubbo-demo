@@ -11,6 +11,7 @@
 		<module>dubbo-provider-01</module>
 		<module>dubbo-consumer</module>
 		<module>dubbo-provider-02</module>
+		<module>dubbo-provider-03</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
