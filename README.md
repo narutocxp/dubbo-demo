@@ -16,3 +16,4 @@
 &nbsp;&nbsp;1.3拷贝dubbo-provider-01/target下的zip <br>
  2.包含第三方依赖<br>
 &nbsp;&nbsp;2.1 执行dubbo-provider-03模块的mvn package,导出的jar在target目录下
+test
